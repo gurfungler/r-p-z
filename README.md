@@ -1,2 +1,2 @@
-# r-p-z
+# r-p-s
 rock paper scissors
