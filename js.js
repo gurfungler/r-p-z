@@ -1,44 +1,46 @@
-function game()
-{
-//make user choice
-let userChoice = '';
-//make computer choice
-let compChoice = '';
-//make win/loss/tie counter
-let win = 0;
-let loss = 0;
-let tie = 0;
-//loop start with counter < 5
-for(let i = 1; i <=5; i++)
-{
-//ask user for rock paper scizor store user choice
+/*
+make user choice
+make computer choice
+make win/loss/tie counter
+see if win/loss == 5
+listen for button click for user choice
+get random computer choice
+compare choices
+display win/loss
+update winloss
+*/
 
-userChoice = getUserChoice();
-//get random computer choice
-compChoice = getCompChoice();
-//compare choices
-let winLoss = compareChoices(userChoice, compChoice)
-switch (winLoss)
+
+let win = 0;
+let loss = 0; 
+let tie = 0;
+
+
+const buttons = document.querySelectorAll('button');
+const winLoss = document.querySelector('#winLoss');
+const counter = document.createElement('div');
+
+winLoss.appendChild(counter);
+buttons.forEach((button) => {  button.addEventListener('click', playGame);});
+
+function playGame()
 {
-    case 0:
-        console.log('it\' a tie!')
-        tie += 1;
-        break;
-    case 1:
-        console.log('it\'s a win!')
-        win += 1;
-        break;
-    case 2:
-        console.log('it\'s a loss!');
-        loss += 1;
-        break;
+    let winOrLose = compareChoices(this.id, getCompChoice())
+    switch (winOrLose)
+    {
+        case 0:
+            tie += 1;
+            break;
+        case 1:
+            win += 1;
+            break;
+        case 2:
+            loss += 1;
+            break;
+    }
+    UpdateCounter();
 }
-//display win/loss
-console.log(`win: ${win}, loss: ${loss}, tie: ${tie}`);
-//loop
-}
-}
-//get computer choice
+
 function getCompChoice()
 {
     let rando = Math.floor(Math.random() * 3);
@@ -53,19 +55,26 @@ function getCompChoice()
 
     }
 }
-//get 
-function getUserChoice()
+
+function UpdateCounter()
 {
-    let check = true;
-    while(check)
+    counter.textContent = `win: ${win}, loss: ${loss}, tie: ${tie}`;
+
+    if(win == 5)
     {
-        let userChoice = (prompt('Rock, Paper, Scissor?')).toLowerCase();
-        if(userChoice == 'rock' || userChoice == 'paper' || userChoice == 'scissor')
-        {
-            return userChoice;
-        }
-        console.log('Gotta enter Rock, Paper, Or Scissor');
+        counter.textContent = `You beat the computer!`;
+        win = 0;
+        loss = 0;
+        tie = 0;
     }
+    else if(loss == 5)
+    {
+        counter.textContent = `You lost to the computer`;
+        win = 0;
+        loss = 0;
+        tie = 0;
+    }
+    return;
 }
 
 function compareChoices(userChoice, compChoice)
@@ -78,14 +87,5 @@ function compareChoices(userChoice, compChoice)
     {
         return 1;
     }
-    return 3;
+    return 2;
 }
-
-
-
-
-
-
-
-
-
